@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Place Autocomplete</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      .controls {
+        margin-top: 10px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      #origin-input,
+      #destination-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 200px;
+      }
+
+      #origin-input:focus,
+      #destination-input:focus {
+        border-color: #4d90fe;
+      }
+
+      #mode-selector {
+        color: #fff;
+        background-color: #4d90fe;
+        margin-left: 12px;
+        padding: 5px 11px 0px 11px;
+      }
+
+      #mode-selector label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+
+    </style>
+  </head>
+  <body>
+ <!--    <input id="origin-input" class="controls" type="text"
+        placeholder="Enter an origin location"> -->
+
+    <!-- <input id="destination-input" class="controls" type="text"
+        placeholder="Enter a destination location">
+ -->
+   
+
+    <div id="map"></div>
+
+    <script>
+   
+
+      function initMap() {
+        if (! !navigator.geolocation) {
+              var map = new google.maps.Map(document.getElementById('map'), {
+              mapTypeControl: false,
+              center: {lat:  21.1619285, lng: -86.8251687},
+              zoom: 13
+              });
+              navigator.geolocation.getCurrentPosition(function(position){
+                  var geolocate = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            
+                    var infoWindow= new google.maps.InfoWindow({
+                      map:map,
+                      position:geolocate,
+                      content:
+                      '<h1>Esta es tu ubicacion</h1>' +
+                      '<h1>Latitud:'+position.coords.latitude+'</h1>' +
+                       '<h1>Latitud:'+position.coords.longitude+'</h1>' 
+
+                    });
+                           var icon21km = 'https://image.ibb.co/bW0nja/21k.png';
+        var LatLng21km = new google.maps.LatLng( 21.1327967,-86.7476392);
+        var marker21km = new google.maps.Marker({
+            position:LatLng21km,
+            map: map,
+            icon: icon21km,
+            title: '21 km'
+        });
+              map.setCenter(geolocate);
+                var objConfigDR = {
+            map:map
+    }
+    var objConfigDS = {
+        origin: geolocate, //LatLng  o Str
+        destination: LatLng21km,
+        travelMode: google.maps.TravelMode.DRIVING
+    }
+    var ds = new google.maps.DirectionsService(); //Obtener coordenadas
+    var dr= new google.maps.DirectionsRenderer(objConfigDR); //Traduce coordenadas a la ruta visible
+
+    ds.route(objConfigDS, fnRutear);
+
+    function fnRutear( resultados , status){
+        //mostra la linea entre A y B
+         dr.setDirections(resultados);
+
+    }
+
+  
+                });
+        }
+        else{
+          document.getElementById("map").innerHTML  = "no soporta";
+        }
+      
+     // var frogs = new google.maps.Marker({
+     //             position: new google.maps.LatLng( 21.1619285,-86.8251687), map: map });
+     //    new AutocompleteDirectionsHandler(map);
+     //  }
+
+       }
+    </script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHXEP-mROC6XdlVbAZsfcAUVQjZfzd1AA&amp;libraries=places&amp;callback=initMap" async="" defer=""></script>
+  </body>
+</html>

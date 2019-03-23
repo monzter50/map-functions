@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Full Sliderx</title>
+
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+		
+</head>
+<body>
+<div class="container-fluid">	
+	<div id="map" ></div>
+</div>
+
+<!-- <script type="text/javascript" src="js/main.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+</body>
+<script>
+ function initMap() {
+       
+        var map = new google.maps.Map(document.getElementById('map'), {
+           center: {lat:  21.041406, lng:-86.874328},        
+           zoom: 12,
+           scrollwheel: true,
+
+
+        });
+  
+
+        var icon21km = 'https://image.ibb.co/bW0nja/21k.png';
+        var LatLng21km = new google.maps.LatLng( 21.1327967,-86.7476392);
+        var marker21km = new google.maps.Marker({
+            position:LatLng21km,
+            map: map,
+            icon: icon21km,
+            title: '21 km'
+        });
+        var iconMeta = 'https://image.ibb.co/g7AnLF/ICONO_BANDERA.png';
+        var LatLngMeta = new google.maps.LatLng(21.041406,-86.874328);
+        var metaMarker = new google.maps.Marker({
+            position: LatLngMeta,
+            map: map,
+            icon: iconMeta,
+            title: 'SALIDA'
+        });
+
+    var objConfigDR = {
+            map:map
+    }
+    var objConfigDS = {
+        origin: LatLngMeta, //LatLng  o Str
+        destination: LatLng21km,
+        travelMode: google.maps.TravelMode.DRIVING
+    }
+    var ds = new google.maps.DirectionsService(); //Obtener coordenadas
+    var dr= new google.maps.DirectionsRenderer(objConfigDR); //Traduce coordenadas a la ruta visible
+
+    ds.route(objConfigDS, fnRutear);
+
+    function fnRutear( resultados , status){
+        //mostra la linea entre A y B
+         dr.setDirections(resultados);
+
+    }
+
+      
+}
+</script>
+ <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHXEP-mROC6XdlVbAZsfcAUVQjZfzd1AA&callback=initMap"
+    async defer></script>
+</html>
